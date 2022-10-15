@@ -1,0 +1,132 @@
+﻿@model GuestDeatils
+@{
+    ViewData["index"] = 1;
+
+    ViewData["Title"] = "Add New Guest";
+}
+
+<div class="container tm-mt-big tm-mb-big">
+    <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+            <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="tm-block-title d-inline-block">Add New Guest</h2>
+                    </div>
+                </div>
+                <form asp-action="newguest" method="post" enctype="multipart/form-data" class="tm-edit-product-form">
+                    <div class="row tm-edit-product-row">
+
+                        <div class="col-xl-6 col-lg-6 col-md-12">
+                            <div class="form-group mb-3">
+                                <label asp-for="GuestIdNo"> Guest ID Card Number </label>
+                                <input asp-for="GuestIdNo" id="guestid" type="text" class="form-control validate" required />
+                                <span asp-validation-for="GuestIdNo" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Name"> Guest Name </label>
+                                <input asp-for="Name" id="name" name="name" type="text" class="form-control validate" required />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Email"> Guest Email </label>
+                                <input asp-for="Email" id="email" name="email" type="email" class="form-control validate" required />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="PhoneNo"> Guest Phone Number </label>
+                                <input asp-for="PhoneNo" id="phone" name="phoneno" type="tel" class="form-control validate" required />
+                                <span asp-validation-for="PhoneNo" class="text-danger"></span>
+
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Sex" >Sex</label>
+                                <select asp-for="Sex" class="custom-select tm-select-accounts"
+                                        id="sex">
+                                    <option selected>Select Sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <span asp-validation-for="Sex" class="text-danger"></span>
+
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="WhomtoSee"> Whom To See </label>
+                                <input asp-for="WhomtoSee" id="whomtosee" name="whomtosee" type="text" class="form-control validate" required />
+                                <span asp-validation-for="WhomtoSee" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                    <label asp-for="ArrivalTime">Arrival Time</label>
+                                    <input asp-for="ArrivalTime" id="arrivaltime" name="arrivaltime" type="text" class="form-control validate expire_date" data-large-mode="true" />
+                                    <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+
+                                </div>
+
+                                <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                    <label asp-for="DepartureTime">Departure Time</label>
+                                    <input asp-for="DepartureTime" id="departuretime" name="departuretime" type="text" class="form-control expire_date" data-large-mode="true" />
+                                    <span asp-validation-for="DepartureTime" class="text-danger"></span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                            <div class="tm-product-img-dummy mx-auto">
+                                <i class="fas fa-cloud-upload-alt tm-upload-icon"
+                                    onclick="document.getElementById('fileInput').click();"></i>
+                            </div>
+                            <div class="custom-file mt-3 mb-3">
+                                <input asp-for="Image" id="fileInput" class="validate" type="file" style="display:none;" required/>
+                                <a class="btn btn-primary btn-block mx-auto" onclick="document.getElementById('fileInput').click();">UPLOAD GUEST IMAGE</a>
+                                <span asp-validation-for="Image" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Address" for="description">Guest Address</label>
+                                <textarea asp-for="Address" class="form-control validate"
+                                            rows="3"
+                                            required></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="VisitPurpose" for="description">Guest Purpose of Visiting</label>
+                                <textarea asp-for="VisitPurpose" class="form-control validate"
+                                            rows="3"
+                                            required></textarea>
+                                <span asp-validation-for="VisitPurpose" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Guest Details</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $(".expire_date").datepicker();
+        });
+    </script>
+
+}

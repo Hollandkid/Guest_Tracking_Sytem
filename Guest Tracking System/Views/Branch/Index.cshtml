@@ -1,0 +1,256 @@
+﻿@model BranchVM
+@{
+    ViewData["Title"] = "Branches";
+    ViewData["index"] = 4;
+
+}
+
+
+<div class="row">
+    <div class="col-3">
+        <div class="form-group">
+            <label class="tm-hide-sm">&nbsp;</label>
+            <a data-toggle="modal" data-target="#AddModal" class="btn btn-primary btn-block text-uppercase">
+                Add New Branch
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row tm-content-row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block">
+            <h2 class="tm-block-title block-title-bg">Branches</h2>
+            <h1 class="tm-block-title">@Model.totalBranch</h1>
+
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-taller">
+            <h2 class="tm-block-title">Assign Staff to a Branch</h2>
+
+            <form asp-action="AssignBranch" asp-controller="Branch" method="post">
+
+                <h2 class="tm-block-title">Assign Staff </h2>
+                <select asp-for="staffEmail" name="staffEmail" class="custom-select tm-select-accounts">
+                    <option selected>Select Staff</option>
+                    @foreach (var staffitem in Model.Staffs)
+                    {
+                        <option value="@staffitem.Email">@staffitem.Fullname</option>
+
+                    }
+                </select>
+
+                <h3 class="tm-block-title text-center" style="padding-top:30px; font-size:30px;"><i class="fa fa-angle-down"></i></h3>
+
+                <h2 class="tm-block-title">Branch</h2>
+
+                <select asp-for="branchId" name="branchId" class="custom-select tm-select-accounts">
+                    <option selected>Select Branch</option>
+                    @foreach (var branchitem in Model.Branches)
+                    {
+                        <option value="@branchitem.BranchId">@branchitem.BranchName</option>
+
+                    }
+                </select>
+
+                <input type="submit" class="btn btn-block text-uppercase" name="" value=" Assign" />
+            </form>
+                
+        </div>
+    </div>
+
+
+    <div class="col-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+            <h2 class="tm-block-title">List of Branches</h2>
+            <table class="table" id="kt_Btable">
+                <thead>
+                    <tr>
+                        <th scope="col">BRANCH NAMES</th>
+                        <th scope="col">BRANCH EMAILS</th>
+                        <th scope="col">BRANCH CONTACT</th>
+                        <th scope="col">BRANCH ADDRESS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var branches in Model.Branches)
+                    {
+                    <tr>
+                        <td><b id="bName@{@branches.BranchId}">@branches.BranchName.ToString().ToUpper()</b></td>
+                        <td><b id="bEmail@{@branches.BranchId}">@branches.BranchEmail</b></td>
+                        <td><b id="bCon@{@branches.BranchId}">@branches.BranchContact</b></td>
+                        <td><b id="bAdd@{@branches.BranchId}">@branches.BranchAddress </b></td>
+                        <td><a data-toggle="modal" data-target="#EditModal" data-id="@branches.BranchId" class="btn" id="editBranch">EDIT</a> | <a data-id="@branches.BranchId" asp-controller="Branch" asp-action="Delete" asp-route-Id="@branches.BranchId" class="btn text-danger" id="ddeleteBranch">DELETE</a></td>
+                    </tr>
+                    }
+                    @*<tr>
+                            <td><b>Oliver Trag</b></td>
+                            <td><b>London, UK</b></td>
+                            <td><b>485 km</b></td>
+                            <td>16:00, 12 NOV 2018</td>
+                            <td>08:00, 18 NOV 2018</td>
+                        </tr>*@
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+@* Add New Branch Modal *@
+<div class="modal fade" id="AddModal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="AddModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            
+            <div class="modal-body">
+                <form asp-action="index" asp-controller="Branch" method="post">
+                    <div class="form-group">
+                        <label class="col-form-label">Branch Name</label>
+                        <input name="BranchName" type="text" validate class="form-control validate" id="name">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Branch Phone Number</label>
+                                <input name="BranchContact" type="tel" validate class="form-control validate" id="phoneNo">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Branch Email</label>
+                                <input name="BranchEmail" type="email" validate class="form-control validate" id="email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Address</label>
+                        <textarea name="BranchAddress" validate class="form-control validate" id="address"></textarea>
+                    </div>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Add Branch">
+                </form>
+            </div>
+            @*<div class="modal-footer">
+
+        </div>*@
+        </div>
+    </div>
+</div>
+
+
+
+@* Modal For Editing Branch *@
+<div class="modal fade" id="EditModal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Branch Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <form asp-action="Edit" asp-controller="Branch" method="post">
+                    <input name="BranchId" type="text" style="display:none !important;" id="branchid">
+
+                    <div class="form-group">
+                        <label class="col-form-label">Branch Name</label>
+                        <input name="BranchName" type="text" validate class="form-control validate" id="mname">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Branch Phone Number</label>
+                                <input name="BranchContact" type="tel" validate class="form-control validate" id="mphoneNo">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Branch Email</label>
+                                <input name="BranchEmail" type="email" validate class="form-control validate" id="memail">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Address</label>
+                        <textarea name="BranchAddress" validate class="form-control validate" id="maddress"></textarea>
+                    </div>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Update">
+                </form>
+            </div>
+            @*<div class="modal-footer">
+
+                </div>*@
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+
+    <script>
+
+        var btn = document.getElementById("editBranch");
+        btn.addEventListener("click", function () {
+            console.log("Clicked2")
+            var branchId = $(this).data('id');
+            $(".modal-body #branchid").val(branchId);
+            console.log(branchId);
+            var name = `bName${branchId}`;
+            var email = `bEmail${branchId}`;
+            var address =`bAdd${branchId}`
+            var phone = `bCon${branchId}`;
+
+            console.log(name);
+            var namm = document.getElementById(`${name}`).innerHTML;
+            var emailm = document.getElementById(`${email}`).innerHTML;
+            var phonem = document.getElementById(`${phone}`).innerHTML;
+            var addm = document.getElementById(`${address}`).innerHTML;
+            console.log(namm);
+            $("#mname").val(namm)
+            $("#memail").val(emailm)
+            $("#mphoneNo").val(phonem)
+            $("#maddress").val(addm)
+            $("#branchid").val(branchId)
+
+        })
+
+        $("#kt_Btable").DataTable({
+            "language": {
+                "lengthMenu": "Show _MENU_",
+            },
+            "dom":
+                "<'row'" +
+                "<'col-sm-6 d-flex align-items-center justify-content-start'f>" +
+                ">" +
+
+                "<'table-responsive'tr>" +
+
+                "<'row'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">"
+        });
+        $("input[type=search]").addClass("form-control bg-gray-200 py-3 w-250px d-block fs-5 ps-15 h-45px").prop('placeholder', "Search for project");
+
+        //css({ "background-color": "yellow", "font-size": "200%" });
+    </script>
+}

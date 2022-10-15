@@ -1,0 +1,105 @@
+﻿@model AdminVM
+@{
+    ViewData["Title"] = "Admins and Staffs";
+    ViewData["index"] = 3;
+
+}
+
+<div class="row">
+    <div class="col-3">
+        <div class="form-group">
+            <label class="tm-hide-sm">&nbsp;</label>
+            <a asp-action="register" asp-controller="User" class="btn btn-primary btn-block text-uppercase">
+                Add new Admin/Staff
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row tm-content-row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark reducetm-block tm-block">
+            <h2 class="tm-block-title block-title-bg">Admins</h2>
+            <h1 class="tm-block-title">@Model.totalAdmin</h1>
+
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block reducetm-block tm-block-taller">
+            <h2 class="tm-block-title block-title-bg">Staffs</h2>
+            <h1 class="tm-block-title">@Model.totalStaff</h1>
+
+            @*<div id="pieChartContainer">
+                    <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+                </div>*@
+        </div>
+    </div>
+
+
+    <div class="col-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+            <h2 class="tm-block-title">Admin and Staff List</h2>
+            <table class="table" id="kt_table">
+                <thead>
+                    <tr>
+                        <th scope="col">NAMES</th>
+                        <th scope="col">EMAILS</th>
+                        <th scope="col">PHONE NO</th>
+                        <th scope="col">ROLE</th>
+                        <th scope="col">DATE CREATED</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var admin in Model.Users)
+                    {
+                        <tr>
+                            <td><b>@admin.Fullname.ToString().ToUpper()</b></td>
+                            <td><b>@admin.Email</b></td>
+                            <td><b>@admin.PhoneNumber</b></td>
+                            <td>@admin.Role.ToString().ToUpper()</td>
+                            <td>@admin.DateCreated.ToString()</td>
+                        </tr>
+                    }
+                    @*<tr>
+                            <td><b>Oliver Trag</b></td>
+                            <td><b>London, UK</b></td>
+                            <td><b>485 km</b></td>
+                            <td>16:00, 12 NOV 2018</td>
+                            <td>08:00, 18 NOV 2018</td>
+                        </tr>*@
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts{
+
+
+    <script>
+
+        $("#kt_table").DataTable({
+            "language": {
+                "lengthMenu": "Show _MENU_",
+            },
+            "dom":
+                "<'row'" +
+                "<'col-sm-6 d-flex align-items-center justify-content-start'f>" +
+                ">" +
+
+                "<'table-responsive'tr>" +
+
+                "<'row'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">"
+        });
+        $("input[type=search]").addClass("form-control bg-gray-200 py-3 w-250px d-block fs-5 ps-15 h-45px").prop('placeholder', "Search for project");
+
+        //css({ "background-color": "yellow", "font-size": "200%" });
+    </script>
+}

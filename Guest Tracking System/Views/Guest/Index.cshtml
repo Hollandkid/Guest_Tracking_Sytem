@@ -1,0 +1,118 @@
+﻿@model GuestViewModel
+@{
+    ViewData["index"] = 2;
+
+    ViewData["Title"] = "Guest Reports";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group col-lg-6">
+                <label class="tm-hide-sm">&nbsp;</label>
+                <button asp-action="newguest" asp-controller="Guest" type="submit"
+                        class="btn btn-primary btn-block text-uppercase">
+                    Add new Guest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row tm-content-row">
+
+
+
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+            <div class="tm-bg-primary-dark reducetm-block tm-block">
+                <h2 class="tm-block-title block-title-bg">Guest in House</h2>
+                <h1 class="tm-block-title">@Model.totalInHouseGuest</h1>
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block reducetm-block tm-block-taller">
+                <h2 class="tm-block-title block-title-bg">Total Guest</h2>
+                <h1 class="tm-block-title">@Model.totalGuest</h1>
+
+                @*<div id="pieChartContainer">
+                        <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+                    </div>*@
+            </div>
+        </div>
+
+        <div class="col-12 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+                <h2 class="tm-block-title">Guest List</h2>
+                <table class="table" id="kt_Gtables">
+                    <thead>
+                        <tr>
+                            <th scope="col">GUEST ID</th>
+                            <th scope="col">NAMES</th>
+                            <th scope="col">EMAILS</th>
+                            <th scope="col">PHONE NO</th>
+                            <th scope="col">SEX</th>
+                            <th scope="col">ARRIVAL DATE</th>
+                            <th scope="col">DEPARTURE DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var guest in Model.Guests)
+                        {
+                            <tr>
+                                <td><a asp-action="GuestDeatils" asp-controller="guest" asp-route-Id="@guest.Id"><b>@guest.GuestIdNo</b></a></td>
+                                <td><a asp-action="GuestDeatils" asp-controller="guest" asp-route-Id="@guest.Id"><b>@guest.Name.ToString().ToUpper()</b></a></td>
+                                <td><b>@guest.Email.ToString().ToUpper()</b></td>
+                                <td><b>@guest.PhoneNo</b></td>
+                                <td><b>@guest.Sex</b></td>
+                                <td>@guest.ArrivalTime.ToString()</td>
+                                <td>@guest.DepartureTime.ToString()</td>
+                            </tr>
+                        }
+                        @*<tr>
+                                <td><b>Oliver Trag</b></td>
+                                <td><b>London, UK</b></td>
+                                <td><b>485 km</b></td>
+                                <td>16:00, 12 NOV 2018</td>
+                                <td>08:00, 18 NOV 2018</td>
+                            </tr>*@
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+@section Scripts{
+
+
+    <script>
+
+        $("#kt_Gtables").DataTable({
+            "language": {
+                "lengthMenu": "Show _MENU_",
+            },
+            "dom":
+                "<'row'" +
+                "<'col-sm-6 d-flex align-items-center justify-content-start'f>" +
+                ">" +
+
+                "<'table-responsive'tr>" +
+
+                "<'row'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">"
+        });
+        $("input[type=search]").addClass("form-control bg-gray-200 py-3 w-250px d-block fs-5 ps-15 h-45px text-white").prop('placeholder', "Search for project");
+
+    </script>
+}
+
+
